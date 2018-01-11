@@ -11,13 +11,13 @@ pip install run_jnb
 
 ## Usage
 
-For Jupyter notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the corresponding python code. A variable can be a possible parameter if:
+For a notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
 - it is defined in a cell that contains only comments or assignments (clean cell requirement),
 - its name is not used previously beside the assignment (function parameter requirement).
 
 One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The json format is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a keyword argument by unpacking its content.
 
-The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert](http://nbconvert.readthedocs.io/en/latest/execute_api.html).
+The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
 
 ## Example
 ### Python Package
@@ -69,3 +69,6 @@ $ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}" -v
 
 ## License
 [BSD 3](LICENSE)
+
+## Acknowledgments
+[***nbrun***](https://github.com/tritemio/nbrun) 
