@@ -47,7 +47,13 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"power":1}')
 ```
+This can be achieved at command line by:
+```bash
+# Windows (" can be escaped by "") 
+run_jnb ./Power_function.ipynb -m true -a "{""power"":1}"
+```
 
+Of course the notebook can be parametrised again:
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, power=4)
 ((None, None, None), './_run_jnb/Power_function-output (1).ipynb', None)
