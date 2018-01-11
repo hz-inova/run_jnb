@@ -2,7 +2,10 @@
 **run_jnb** is a Python package for parametrising (python3 only) and executing Jupyter notebooks.
 
 ## Where to get it
-Download the repositiory at: https://github.com/hz-inova/run_jnb
+Download the repositiory at: https://github.com/hz-inova/run_jnb or use pip
+```bash
+pip install run_jnb
+```
 
 ## Usage
 For Jupyter notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the corresponding python code. A variable can be a possible parameter if:
