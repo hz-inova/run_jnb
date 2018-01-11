@@ -45,10 +45,14 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"power":1}')
 ```
-This can be achieved at command line where the tuple is serialised to json (first element of the tuple is represented first as a string):
-```bat
-# Windows (" can be escaped by "") 
+This can be achieved at command line where the tuple is serialised to json (first element of the tuple is represented as a string before the serialisation):
+```sh
+# Windows cmd (" can be escaped by "") 
 > run_jnb ./Power_function.ipynb -m true -a "{""power"":1}"
+
+# Unix bash (" can be escaped by \")
+$ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}"
+
 [["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
 ```
 
