@@ -29,6 +29,7 @@ Consider the [notebook]example/Power_function.ipynb).
 >>> possible_parameter('./Power_function.ipynb')
 OrderedDict([('v', 1), ('power', 3)])
 ```
+The notebook contains two possible parameters ***v*** and ***power***. First variable is not json serialisable so next we will use ***power*** as a parameter in ***run_jnb***.
 
 ***run_jnb*** returns a tuple with three elements:
 - the first element is the output of **sys.exc_info()**, 
@@ -39,7 +40,10 @@ OrderedDict([('v', 1), ('power', 3)])
 >>> run_jnb("./Power_function.ipynb", return_mode=True, power=1)
 ((None, None, None), './_run_jnb/Power_function-output.ipynb', None)
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb).
+Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using ***arg***
+```python
+>>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"power":1}')
+```
 
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, power=4)
