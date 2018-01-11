@@ -24,7 +24,7 @@ The package contains two public functions ***possible_parameter*** and ***run_jn
 ```
 Consider the [notebook]example/Power_function.ipynb).
 
-***possible_parameter*** returns an OrderedDict where the key is the parameter name and the value is the cell index.
+***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the cell index where the parameter is assigned.
 
 ```python
 >>> possible_parameter('./Power_function.ipynb')
