@@ -5,8 +5,7 @@ import json as json
 from nbconvert.preprocessors import ExecutePreprocessor as EP
 from .core import run_jnb
 
-if __name__ == '__main__':
-
+def main():
     parser = argparse.ArgumentParser(description='Run an input jupyter notebook file and optionally (python3 only) parametrise it.')
     parser.add_argument("input_path", help="path of input jupyter notebook")
     parser.add_argument("-o","--output_path", help="Path of the output jupyter notebook. The input path can be used as relative path by starting with '///' . * can be used once in the beggining or end as a wildcard of the input_path filename, excluding the '.ipynb' extension.",
@@ -40,9 +39,6 @@ if __name__ == '__main__':
                   timeout=args.timeout,kernel_name=args.kernel_name,
                   ep_kwargs= args.ep_kwargs, arg=args.arg)
 
-    res_json = {}
-    res_json['exc_info']=[repr(el) for el in res[0]]
-    res_json['output_jnb']=res[1]
-    res_json['error_execution_count']=res[2]
-
-    print(json.dumps(res_json))
+    res = list(res)
+    res[0]=[repr(el) for el in res[0]]
+    print(json.dumps(res))
