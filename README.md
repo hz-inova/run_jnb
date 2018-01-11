@@ -54,12 +54,12 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb
 ### Command Line Tool
 ***run_jnb*** can be used at command line. The output is return only when the verbose flag is used. The returned tuple is serialised to json (the first element of the tuple is represented as a string before the serialisation):
 ```sh
+# macOS or Linux bash terminal (" can be escaped by \")
+$ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}" -v
+[["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
+
 # Windows cmd (" can be escaped by "") 
 > run_jnb ./Power_function.ipynb -m true -a "{""power"":1}" -v
-
-# Unix bash (" can be escaped by \")
-$ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}" -v
-
 [["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
 ```
 
