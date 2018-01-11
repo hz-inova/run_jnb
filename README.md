@@ -1,5 +1,5 @@
 # run_jnb
-**run_jnb** is a Python package for parametrising (python3 only) and executing Jupyter notebooks.
+**run_jnb** is a Python package and command line tool for parametrising (python3 only) and executing Jupyter notebooks.
 
 ## Where to get it
 Download the repositiory at: https://github.com/hz-inova/run_jnb or use pip
@@ -15,8 +15,6 @@ For Jupyter notebook written in python one can find the possible parameters. Thi
 One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The json format is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a keyword argument by unpacking its content.
 
 The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert](http://nbconvert.readthedocs.io/en/latest/execute_api.html).
-
-The package can be used also as a command line tool.
 
 ## Example
 The package contains two public functions ***possible_parameter*** and ***run_jnb*** (see the docstring).
