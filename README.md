@@ -19,7 +19,7 @@ The package can be used also as a command line tool.
 The package contains two public functions ***possible_parameter*** and ***run_jnb*** (see the docstring).
 
 ```python
->>> from run_jnb.run_jnb import possible_parameter, run_jnb
+>>> from run_jnb import possible_parameter, run_jnb
 ```
 Consider the [notebook]example/Power_function.ipynb).
 
