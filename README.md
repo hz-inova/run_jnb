@@ -40,7 +40,7 @@ The notebook contains two possible parameters ***v*** and ***power***. First var
 >>> run_jnb("./Power_function.ipynb", return_mode=True, power=1)
 ((None, None, None), './_run_jnb/Power_function-output.ipynb', None)
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using ***arg***
+Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using ***arg*** parameter of ***run_jnb***:
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"power":1}')
 ```
