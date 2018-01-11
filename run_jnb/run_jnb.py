@@ -24,6 +24,9 @@ def main():
                         default=None, type=str)
     parser.add_argument('-a',"--arg", help="jupyter notebook argument as json file or as json string (python3 only)",
                         default=None, type=str)
+    parser.add_argument("-v", "--verbose", help="increase output verbosity",
+                    action="store_true")
+
 
     args = parser.parse_args()
 
@@ -39,6 +42,7 @@ def main():
                   timeout=args.timeout,kernel_name=args.kernel_name,
                   ep_kwargs= args.ep_kwargs, arg=args.arg)
 
-    res = list(res)
-    res[0]=[repr(el) for el in res[0]]
-    print(json.dumps(res))
+    if args.verbose:
+        res = list(res)
+        res[0]=[repr(el) for el in res[0]]
+        print(json.dumps(res))
