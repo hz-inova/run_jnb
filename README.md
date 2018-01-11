@@ -35,7 +35,7 @@ Consider the [notebook]example/Power_function.ipynb).
 >>> possible_parameter('./Power_function.ipynb')
 OrderedDict([('v', 1), ('power', 3)])
 ```
-The notebook contains two possible parameters ***v*** and ***power***. First variable is not json serialisable so next we will use ***power*** as a parameter in ***run_jnb***.
+The notebook contains two possible parameters ***v*** and ***power***. The first variable is not json serialisable so next ***power*** is used as argument using ***run_jnb***.
 
 ***run_jnb*** returns a tuple with three elements:
 - the first element is the output of **sys.exc_info()**, 
@@ -52,7 +52,7 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb
 ```
 
 ### Command Line Tool
-***run_jnb*** can be used at command line. The output is return only when the verbose flag is used. The returned tuple is serialised to json (first element of the tuple is represented as a string before the serialisation):
+***run_jnb*** can be used at command line. The output is return only when the verbose flag is used. The returned tuple is serialised to json (the first element of the tuple is represented as a string before the serialisation):
 ```sh
 # Windows cmd (" can be escaped by "") 
 > run_jnb ./Power_function.ipynb -m true -a "{""power"":1}" -v
