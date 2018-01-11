@@ -4,7 +4,7 @@ import copy
 import nbformat
 import os
 
-from run_jnb.util import _read_nb, sort_dict, variable_status
+from .util import _read_nb, sort_dict, variable_status
 from nbconvert import PythonExporter
 
 class _JupyterNotebookHelper:

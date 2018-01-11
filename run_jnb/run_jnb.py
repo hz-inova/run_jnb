@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import argparse as _argparse
-import json as _json
-from nbconvert.preprocessors import ExecutePreprocessor as _EP
-from run_jnb.core import possible_parameter, run_jnb
+import argparse as argparse
+import json as json
+from nbconvert.preprocessors import ExecutePreprocessor as EP
+from .core import run_jnb
 
 if __name__ == '__main__':
 
-    parser = _argparse.ArgumentParser(description='Run an input jupyter notebook file and optionally (python3 only) parametrise it.')
+    parser = argparse.ArgumentParser(description='Run an input jupyter notebook file and optionally (python3 only) parametrise it.')
     parser.add_argument("input_path", help="path of input jupyter notebook")
     parser.add_argument("-o","--output_path", help="Path of the output jupyter notebook. The input path can be used as relative path by starting with '///' . * can be used once in the beggining or end as a wildcard of the input_path filename, excluding the '.ipynb' extension.",
                         default=r"///_run_jnb/*-output", type=str)
@@ -18,9 +18,9 @@ if __name__ == '__main__':
     parser.add_argument("-O","--overwrite", help="overwrite output_path if exits",
                         action='store_true', default=False)
     parser.add_argument("-t","--timeout", help="ExecutePreprocessor.timeout",
-                        type=int, default=_EP.timeout.default_value)
+                        type=int, default=EP.timeout.default_value)
     parser.add_argument("-k","--kernel_name", help="ExecutePreprocessor.kernel_name",
-                        type=str, default=_EP.kernel_name.default_value)
+                        type=str, default=EP.kernel_name.default_value)
     parser.add_argument('-E',"--ep_kwargs", help="Other ExecutePreprocessor parameters as keywords arguments",
                         default=None, type=str)
     parser.add_argument('-a',"--arg", help="jupyter notebook argument as json file or as json string (python3 only)",
@@ -29,11 +29,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.return_mode != 'except':
-        args.return_mode = _json.loads(args.return_mode)
+        args.return_mode = json.loads(args.return_mode)
 
 
     if args.ep_kwargs is not None:
-        args.ep_kwargs = _json.loads(args.ep_kwargs)
+        args.ep_kwargs = json.loads(args.ep_kwargs)
     res = run_jnb(input_path=args.input_path, output_path=args.output_path,
                   execution_path=args.execution_path,
                   return_mode=args.return_mode, overwrite=args.overwrite,
@@ -45,4 +45,4 @@ if __name__ == '__main__':
     res_json['output_jnb']=res[1]
     res_json['error_execution_count']=res[2]
 
-    print(_json.dumps(res_json))
+    print(json.dumps(res_json))

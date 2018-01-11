@@ -1,2 +1,3 @@
-__all__ = ['run_jnb']
-__version__ = "0.1"
+from .core import possible_parameter, run_jnb
+__all__ = []
+__version__ = "0.1.1"

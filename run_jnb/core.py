@@ -7,10 +7,10 @@ import sys
 from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert.preprocessors.execute import CellExecutionError
 
-from run_jnb.util import _read_nb, _write_nb, sort_dict, group_dict_by_value, \
+from .util import _read_nb, _write_nb, sort_dict, group_dict_by_value, \
  decode_json, kwargs_to_variable_assignment, _mark_auto_generated_code, \
  increment_name
-from run_jnb.jnb_helper import _JupyterNotebookHelper
+from .jnb_helper import _JupyterNotebookHelper
 
 
 
