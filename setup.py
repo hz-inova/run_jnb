@@ -4,7 +4,7 @@ import run_jnb
 from setuptools import setup
 setup(
     name = 'run_jnb',
-    py_modules = ['run_jnb.run_jnb'],
+    packages = ['run_jnb'],
     description = 'Parametrise (python3 only) and execute Jupyter notebooks',
     version = run_jnb.__version__,
     author = 'Andrei V. Plamada',
