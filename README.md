@@ -91,4 +91,4 @@ the second element in the returned tuple is the prompt number (please see the [g
 [BSD 3](LICENSE)
 
 ## Acknowledgments
-[***nbrun***](https://github.com/tritemio/nbrun) 
+[nbrun](https://github.com/tritemio/nbrun) and [nbparameterise](https://github.com/takluyver/nbparameterise) were a source of inspiration.
