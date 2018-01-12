@@ -188,12 +188,15 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
 
         for i, cell in enumerate(nb['cells']):
             if cell['cell_type'] == 'code':
-                for output in cell['outputs']:
-                    if output.get('output_type') == 'error':
-                        execution_count=cell['execution_count']
-                    break
                 if execution_count is not None:
-                    break
+                    nb['cells'][i]['outputs']=[]
+                    nb['cells'][i]['execution_count']=None
+                else:
+                    for output in cell['outputs']:
+                        if output.get('output_type') == 'error':
+                            execution_count=cell['execution_count']
+                        break
+
 
     finally:
         if return_mode == 'except':
