@@ -20,10 +20,14 @@ One can pass arguments as keyword arguments or in a json format (file or string)
 
 The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert Executing notebooks](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
 
-## Simple example
-### Python Package
-
 The package contains two public functions ***possible_parameter*** and ***run_jnb*** (see the docstring).
+
+***run_jnb*** is available also as a command line tool and its documentation is available via 
+```sh
+run_jnb -h
+```
+
+## Simple example
 
 ```python
 >>> from run_jnb import possible_parameter, run_jnb
@@ -34,40 +38,49 @@ Consider the [notebook]example/Power_function.ipynb).
 
 ```python
 >>> possible_parameter('./Power_function.ipynb')
-OrderedDict([('v', 1), ('power', 3)])
+OrderedDict([('np_arange_args', 4), ('x', 5), ('exponent', 7), ('y', 9)])
 ```
-The notebook contains two possible parameters ***v*** and ***power***. The first variable is not json serialisable so next ***power*** is used as argument using ***run_jnb***.
+The notebook contains several possible parameters. 
+
+Next we will parametrise the *exponent* using ***run_jnb***.
 
 ***run_jnb*** returns a tuple with three elements:
-- the first element is the output of **sys.exc_info()**, 
-- the second element is the path of the generated notebook,
-- the third element is execution_count of the cell where the error is catched.
+- the first element is the path of the generated notebook, 
+- the second element is the prompt number of the cell where the error is catched,
+- the third element is the output of **sys.exc_info()**.
 
 ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, power=1)
-((None, None, None), './_run_jnb/Power_function-output.ipynb', None)
+>>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
+('./_run_jnb/Power_function-output.ipynb', None, (None, None, None))
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using ***arg*** parameter of ***run_jnb***:
+Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using *arg* parameter of ***run_jnb***:
 ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"power":1}')
+>>> run_jnb("./Power_function.ipynb", return_mode=True, arg='{"exponent":1}')
 ```
-
-### Command Line Tool
-***run_jnb*** can be used at command line. The output is return only when the verbose flag is used. The returned tuple is serialised to json (the first element of the tuple is represented as a string before the serialisation):
+or using the command line tool. At command line the output is return only when the verbose flag is used (the tuple is serialised to json):
 ```sh
 # macOS or Linux bash terminal (" can be escaped by \")
-$ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}" -v
+$ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -v
 [["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
 
 # Windows cmd (" can be escaped by "") 
-> run_jnb ./Power_function.ipynb -m true -a "{""power"":1}" -v
+> run_jnb ./Power_function.ipynb -m true -a "{""exponent"":1}" -v
 [["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
 ```
-
-The documentation is available via 
-```sh
-run_jnb -h
+ *np_arange_args* and *exponent* can be parametrised:
+ ```python
+>>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'start':-20,'stop':20,'step':0.1})
+('./_run_jnb/Power_function-output (1).ipynb', None, (None, None, None))
 ```
+Please see the [generated notebook](example/_run_jnb/Power_function-output (1).ipynb).
+
+If the generated notebook contains an error:
+ ```python
+>>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'step':0.1})
+('./_run_jnb/Power_function-output (2).ipynb', 3, (nbconvert.preprocessors.execute.CellExecutionError, ...)
+```
+the second element in the returned tuple is the prompt number (please see the [generated notebook](example/_run_jnb/Power_function-output (2).ipynb)).
+
 
 ## Dependencies
 - [python](https://www.python.org): 3.5 or higher
