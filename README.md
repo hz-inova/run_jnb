@@ -61,25 +61,25 @@ or using the command line tool. At command line the output is return only when t
 ```sh
 # macOS or Linux bash terminal (" can be escaped by \")
 $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -v
-[["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
+["./_run_jnb/Power_function-output.ipynb", null, [null, null, null]]
 
 # Windows cmd (" can be escaped by "") 
 > run_jnb ./Power_function.ipynb -m true -a "{""exponent"":1}" -v
-[["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
+["./_run_jnb/Power_function-output.ipynb", null, [null, null, null]]
 ```
  *np_arange_args* and *exponent* can be parametrised:
  ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'start':-20,'stop':20,'step':0.1})
 ('./_run_jnb/Power_function-output (1).ipynb', None, (None, None, None))
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output (1).ipynb).
+Please see the [generated notebook](example/_run_jnb/Power_function-output%20(1).ipynb).
 
 If the generated notebook contains an error:
  ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('./_run_jnb/Power_function-output (2).ipynb', 3, (nbconvert.preprocessors.execute.CellExecutionError, ...)
 ```
-the second element in the returned tuple is the prompt number (please see the [generated notebook](example/_run_jnb/Power_function-output (2).ipynb)).
+the second element in the returned tuple is the prompt number (please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb)).
 
 
 ## Dependencies
