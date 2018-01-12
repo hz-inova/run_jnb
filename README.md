@@ -68,9 +68,9 @@ $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -v
 > run_jnb ./Power_function.ipynb -m true -a "{""exponent"":1}" -v
 [".../_run_jnb/Power_function-output.ipynb", null, [null, null, null]]
 ```
- *np_arange_args* and *exponent* can be parametrised:
+*np_arange_args* and *exponent* can be parametrised:
  ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'start':-20,'stop':20,'step':0.1})
+>>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
 ('.../_run_jnb/Power_function-output (1).ipynb', None, (None, None, None))
 ```
 Please see the [generated notebook](example/_run_jnb/Power_function-output%20(1).ipynb).
