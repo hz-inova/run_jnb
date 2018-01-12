@@ -94,10 +94,10 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     Returns
     -------
     tuple
-        (sys.exc_info(), output absolute path or None,execution_count or None)
-        First element of the tuple: If no error is found during the execution of the notebook sys.exc_info() is (None, None, None).
-        Second element of the tuple: according to the return_mode if the generated file is written to the output path it is returned otherwise None.
-        Third element of the tuple: execution_count of the cell where the error is catched.
+        (output absolute path or None,execution_count or None,sys.exc_info())
+        First element of the tuple: according to the return_mode if the generated file is written the output path is returned otherwise None.
+        Second element of the tuple: execution_count of the cell where the error is catched.
+        Third element of the tuple: If no error is found during the execution of the notebook sys.exc_info() is (None, None, None).
         """
 
     if os.path.splitext(input_path)[1]!='.ipynb':
@@ -217,4 +217,4 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
                     output_path=os.path.join(dirname,new_root+ext)
             nb_return = output_path #update the output_path
             _write_nb(nb, output_path)
-        return error, nb_return, execution_count
+        return nb_return, execution_count, error

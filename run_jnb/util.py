@@ -98,10 +98,10 @@ def decode_json(json_input: Union[str, None]=None):
             raise TypeError()
         elif json_input[-5:] == ".json":
             with open(json_input) as f:
-                jupyter_kwargs = json.load(f)
+                decoded_json = json.load(f)
         else:
-            jupyter_kwargs = json.loads(json_input)
-    return jupyter_kwargs
+            decoded_json = json.loads(json_input)
+    return decoded_json
 
 
 
