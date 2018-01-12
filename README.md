@@ -80,7 +80,7 @@ If the generated notebook contains an error:
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('.../_run_jnb/Power_function-output (2).ipynb', 3, (nbconvert.preprocessors.execute.CellExecutionError, ...)
 ```
-the second element in the returned tuple is the prompt number (please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb)).
+the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was catched (please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb)).
 
 
 ## Dependencies
