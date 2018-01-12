@@ -32,7 +32,7 @@ run_jnb -h
 ```python
 >>> from run_jnb import possible_parameter, run_jnb
 ```
-Consider the [notebook]example/Power_function.ipynb).
+Consider the [notebook](example/Power_function.ipynb).
 
 ***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the cell index where the parameter is assigned.
 
