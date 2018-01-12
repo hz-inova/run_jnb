@@ -1,7 +1,8 @@
 # run_jnb
 
 **run_jnb** is a python package and command line tool for parametrising (python3 only) and executing Jupyter notebooks.
-- **source**: [https://github.com/hz-inova/run_jnb](https://github.com/hz-inova/run_jnb)
+
+- **Source**: [https://github.com/hz-inova/run_jnb](https://github.com/hz-inova/run_jnb)
 
 ## Install
 
@@ -15,9 +16,9 @@ For a notebook written in python one can find the possible parameters. This is a
 - it is defined in a cell that contains only comments or assignments (clean cell requirement),
 - its name is not used previously beside the assignment (function parameter requirement).
 
-One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The json format is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a keyword argument by unpacking its content.
+One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json format is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a keyword argument by unpacking its content.
 
-The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
+The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert Executing notebooks](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
 
 ## Simple example
 ### Python Package
@@ -61,6 +62,11 @@ $ run_jnb ./Power_function.ipynb -m true -a "{\"power\":1}" -v
 # Windows cmd (" can be escaped by "") 
 > run_jnb ./Power_function.ipynb -m true -a "{""power"":1}" -v
 [["None", "None", "None"], "./_run_jnb/Power_function-output.ipynb", null]
+```
+
+The documentation is available via 
+```sh
+run_jnb -h
 ```
 
 ## Dependencies
