@@ -44,5 +44,5 @@ def main():
 
     if args.verbose:
         res = list(res)
-        res[2]=[repr(el) for el in res[2] if el is not None]
+        res[2]=[el if el is None else repr(el) for el in res[2]]
         print(json.dumps(res))
