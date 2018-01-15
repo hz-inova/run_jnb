@@ -70,10 +70,10 @@ At command line the output is returned only in verbose mode (the tuple is serial
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 # or
->>> run_jnb("./Power_function.ipynb", return_mode=True, arg="power_function_arg.json")
+>>> run_jnb("./Power_function.ipynb", return_mode=True, arg="./power_function_arg.json")
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 ```
-where *power_function_arg.json* contains:
+where [*power_function_arg.json*](example/power_function_arg.json) contains:
  ```javascript
 {
 	"exponent": 3,
