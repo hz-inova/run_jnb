@@ -73,7 +73,7 @@ At command line the output is returned only in verbose mode (the tuple is serial
 >>> run_jnb("./Power_function.ipynb", return_mode=True, arg="power_function_arg.json")
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 ```
-where the json file contains:
+where *power_function_arg.json* contains:
  ```javascript
 {
 	"exponent": 3,
