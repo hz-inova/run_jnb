@@ -5,13 +5,13 @@
 - **Source**: [https://github.com/hz-inova/run_jnb](https://github.com/hz-inova/run_jnb)
 - **Development Status**: Alpha
 
-## Install
+## Installion
 
 ```sh
 pip install run_jnb
 ```
 
-## Usage
+## Short Description
 
 For a notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
 - it is defined in a cell that contains only comments or assignments,
@@ -33,7 +33,7 @@ The package contains two public functions ***possible_parameter*** and ***run_jn
 run_jnb -h
 ```
 
-## Simple example
+## Simple Example
 
 Consider the [notebook](example/Power_function.ipynb).
 
