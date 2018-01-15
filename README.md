@@ -14,27 +14,27 @@ pip install run_jnb
 ## Usage
 
 For a notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
-- it is defined in a cell that contains only comments or assignments (clean cell requirement),
-- its name is not used previously beside the assignment (function parameter requirement).
+- it is defined in a cell that contains only comments or assignments,
+- its name is not used in the current cell beside the assignment nor previously.
 
-One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a keyword argument by unpacking it.
+One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a variable assignment by unpacking it. The assignments are appended at the end of the cell where they are initially defined.
 
 The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert Executing notebooks](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
 
 The package contains two public functions ***possible_parameter*** and ***run_jnb*** (see the docstring).
 
+```python
+>>> from run_jnb import possible_parameter, run_jnb
+```
+
 ***run_jnb*** is available also as a command line tool and its documentation is available via 
+
 ```sh
 run_jnb -h
 ```
 
 ## Simple example
 
-The package contains two functions:
-
-```python
->>> from run_jnb import possible_parameter, run_jnb
-```
 Consider the [notebook](example/Power_function.ipynb).
 
 ***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the cell index where the parameter is assigned.
