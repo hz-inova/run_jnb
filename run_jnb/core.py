@@ -2,7 +2,6 @@
 
 import json
 import os
-import sys
 
 from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert.preprocessors.execute import CellExecutionError
@@ -11,7 +10,6 @@ from .util import _read_nb, _write_nb, sort_dict, group_dict_by_value, \
  decode_json, kwargs_to_variable_assignment, _mark_auto_generated_code, \
  increment_name
 from .jnb_helper import _JupyterNotebookHelper
-
 
 
 def possible_parameter(nb):
@@ -40,6 +38,7 @@ def possible_parameter(nb):
     """
     jh = _JupyterNotebookHelper(nb)
     return jh.possible_param
+
 
 def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             execution_path=r'///input',
@@ -94,25 +93,24 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     Returns
     -------
     tuple
-        (output absolute path or None,execution_count or None,sys.exc_info())
-        First element of the tuple: according to the return_mode if the generated file is written the output path is returned otherwise None.
-        Second element of the tuple: execution_count of the cell where the error is catched.
-        Third element of the tuple: If no error is found during the execution of the notebook sys.exc_info() is (None, None, None).
+        (output absolute path or None,error prompt number, error type, error value, error traceback)
+        If the generated file is written the output path is returned otherwise None.
+        If an error is catched the details are return otherwise None.
         """
 
-    if os.path.splitext(input_path)[1]!='.ipynb':
+    if os.path.splitext(input_path)[1] != '.ipynb':
         raise ValueError("The extension of input_path = '{}' is not '.ipynb'".format(input_path))
-    if os.path.basename(input_path)=='*':
+    if os.path.basename(input_path) == '*':
         raise ValueError("The filename ={} can not start with *".format(input_path))
 
 
-    input_path_dir,input_path_base = os.path.split(input_path)
+    input_path_dir, input_path_base = os.path.split(input_path)
     if output_path.startswith(r'///'):
         input_rel = True
-        output_path=output_path[3:]
+        output_path = output_path[3:]
     else:
         input_rel = False
-    output_path_dir,output_path_base = os.path.split(output_path)
+    output_path_dir, output_path_base = os.path.split(output_path)
 
     if input_rel:
         output_path_dir = os.path.join(input_path_dir, output_path_dir)
@@ -124,21 +122,22 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     if output_path_base.endswith('.ipynb'):
         pass
     elif output_path_base.startswith("*"):
-        output_path_base=input_path_base[:-6]+output_path_base[1:]+'.ipynb'
+        output_path_base = input_path_base[:-6]+output_path_base[1:]+'.ipynb'
     elif output_path_base.endswith("*"):
-        output_path_base=output_path_base[:-1]+input_path_base[:-6]+'.ipynb'
+        output_path_base = output_path_base[:-1]+input_path_base[:-6]+'.ipynb'
     else:
         raise ValueError("Invalid output_path")
 
-    output_path = os.path.abspath(os.path.join(output_path_dir,output_path_base))
+    output_path = os.path.abspath(os.path.join(output_path_dir,
+                                               output_path_base))
 
-    if output_path is not None and os.path.splitext(output_path)[1]!='.ipynb':
+    if output_path is not None and os.path.splitext(output_path)[1] != '.ipynb':
         raise ValueError("The extension of output_path = '{}' is not '.ipynb'".format(output_path))
 
     if execution_path.startswith(r'///input'):
-        execution_path = os.path.join(input_path_dir,execution_path[8:])
+        execution_path = os.path.join(input_path_dir, execution_path[8:])
     elif execution_path.startswith(r'///output'):
-        execution_path = os.path.join(input_path_dir,execution_path[8:])
+        execution_path = os.path.join(input_path_dir, execution_path[8:])
     execution_path = os.path.normpath(execution_path)
 
     if os.path.exists(execution_path) is False:
@@ -168,7 +167,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
                 raise ValueError(repr(el)+' is not a possible parameter {}.'.format(list(jnh.possible_param.keys())))
             else:
                 params_of_interest[el] = jnh.possible_param[el]
-        params_of_interest = sort_dict(params_of_interest,by='value')
+        params_of_interest = sort_dict(params_of_interest, by='value')
         cell_index_param = group_dict_by_value(params_of_interest)
         for key, value in cell_index_param.items():
             cell_param = {k: jupyter_kwargs[k] for k in value}
@@ -176,28 +175,28 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             marked_code = _mark_auto_generated_code(cell_code)
             nb['cells'][key]['source'] += marked_code
 
-    ep = ExecutePreprocessor(timeout=timeout, kernel_name=kernel_name, **ep_kwargs)
+    ep = ExecutePreprocessor(timeout=timeout, kernel_name=kernel_name,
+                             **ep_kwargs)
     catch_except = False
-    execution_count = None
+
+    error = (None, None, None, None)
     try:
         ep.preprocess(nb, {'metadata': {'path': execution_path}})
-        error = sys.exc_info()
     except CellExecutionError:
         catch_except = True
-        error = sys.exc_info()
 
         for i, cell in enumerate(nb['cells']):
             if cell['cell_type'] == 'code':
-                if execution_count is not None:
-                    nb['cells'][i]['outputs']=[]
-                    nb['cells'][i]['execution_count']=None
+                if error[0] is not None:
+                    nb['cells'][i]['outputs'] = []
+                    nb['cells'][i]['execution_count'] = None
                 else:
                     for output in cell['outputs']:
                         if output.get('output_type') == 'error':
-                            execution_count=cell['execution_count']
-                        break
-
-
+                            error = (cell['execution_count'],
+                                     output.get('ename'), output.get('evalue'),
+                                     output.get('traceback'))
+                            break
     finally:
         if return_mode == 'except':
             if catch_except is True:
@@ -216,8 +215,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
                     dirname, basename = os.path.split(output_path)
                     root, ext = os.path.splitext(basename)
                     new_root = increment_name(root)
-
-                    output_path=os.path.join(dirname,new_root+ext)
-            nb_return = output_path #update the output_path
+                    output_path = os.path.join(dirname, new_root+ext)
+            nb_return = output_path  # update the output_path
             _write_nb(nb, output_path)
-        return nb_return, execution_count, error
+        return (nb_return, *error)
