@@ -30,6 +30,8 @@ run_jnb -h
 
 ## Simple example
 
+The package contains two functions:
+
 ```python
 >>> from run_jnb import possible_parameter, run_jnb
 ```
@@ -45,23 +47,24 @@ The notebook contains several possible parameters.
 
 Next we will parametrise the *exponent* using ***run_jnb***.
 
-***run_jnb*** returns a tuple (output absolute path ,error prompt number, error type, error value, error traceback).
+***run_jnb*** returns a tuple (output absolute path, error prompt number, error type, error value, error traceback).
 
 ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
 ('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using *arg* parameter of ***run_jnb***:
+Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using *arg* parameter:
 ```python
 >>> run_jnb(".../Power_function.ipynb", return_mode=True, arg='{"exponent":1}')
 ```
-or using the command line tool. At command line the output is return only when the verbose flag is used (the tuple is serialised as csv):
+or using the command line tool: 
 ```sh
 # " can be escaped by \"
 $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -vvv
 [".../_run_jnb/Power_function-output.ipynb",,,,
-
 ```
+At command line the output is returned only in verbose mode (the tuple is serialised as a csv).
+
 *np_arange_args* and *exponent* can be parametrised:
  ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
