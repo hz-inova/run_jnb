@@ -74,7 +74,7 @@ At command line the output is returned only in verbose mode (the tuple is serial
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 ```
 where the json file contains:
- ```json
+ ```javascript
 {
 	"exponent": 3,
 	"np_arange_args": {
