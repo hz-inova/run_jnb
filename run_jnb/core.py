@@ -20,8 +20,8 @@ def possible_parameter(nb):
     the python code generated from the jupyter notebook.
 
     For a jupuyter notebook, a variable can be a possible parameter if:
-        - it is defined in a cell that contains only comments or assignments (clean cell requirement),
-        - its name is not used previously beside the assignment (function parameter requirement).
+        - it is defined in a cell that contains only comments or assignments,
+        - its name is not used in the current cell beside the assignment nor previously.
 
 
     Parameters
@@ -51,13 +51,14 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     Run an input jupyter notebook file and optionally (python3 only)
     parametrise it.
 
-    The runner is simply a wrapper of ExecutePreprocessor as decribed
-    at http://nbconvert.readthedocs.io/en/latest/execute_api.html .
-    Moreover one can pass arguments as keyword arguments or in a json format
-    (file or string). For safety reasons, in order to avoid any code injection
-    only json serialisable keywords arguments are available. The json format is
-    decoded into python objects using the standard json decoder and it is mapped
-    to a keyword argument by unpacking its content.
+    One can pass arguments as keyword arguments or in a json format (file or string).
+    For safety reasons, in order to avoid any code injection,
+    only json serialisable keywords arguments are available. The keyword
+    arguments are firstly encoded in json format using the standard json encoder.
+    The json content is decoded into python objects using the standard json decoder
+    and it is mapped to a variable assignment by unpacking it.
+    The assignments are appended at the end of the cell where they are initially defined.
+
 
     Parameters
     ----------
@@ -93,7 +94,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     Returns
     -------
     tuple
-        (output absolute path or None,error prompt number, error type, error value, error traceback)
+        (output absolute path or None, error prompt number, error type, error value, error traceback)
         If the generated file is written the output path is returned otherwise None.
         If an error is catched the details are return otherwise None.
         """
