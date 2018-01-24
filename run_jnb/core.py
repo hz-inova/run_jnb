@@ -12,7 +12,7 @@ from .util import _read_nb, _write_nb, sort_dict, group_dict_by_value, \
 from .jnb_helper import _JupyterNotebookHelper
 
 
-def possible_parameter(nb):
+def possible_parameter(nb, end_cell_index=None):
     """
     Find the possible parameters from a jupyter notebook (python3 only).
 
@@ -28,6 +28,8 @@ def possible_parameter(nb):
     ----------
     nb : str, nbformat.notebooknode.NotebookNode
         Jupyter notebook path or its content as a NotebookNode object.
+    end_cell_index : int, optional
+        End cell index used to slice the notebook in finding the possible parameters.
 
     Returns
     -------
@@ -36,7 +38,7 @@ def possible_parameter(nb):
         The key is the name of the variable and the value is the index of the cell where the variable is defined using a zero-based numbering.
         The dictionary is ordered by the cell index.
     """
-    jh = _JupyterNotebookHelper(nb)
+    jh = _JupyterNotebookHelper(nb, end_cell_index)
     return jh.possible_param
 
 
@@ -46,7 +48,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             overwrite=False,
             timeout=ExecutePreprocessor.timeout.default_value,
             kernel_name=ExecutePreprocessor.kernel_name.default_value,
-            ep_kwargs=None, arg=None, **kwargs):
+            ep_kwargs=None, end_cell_index=None, arg=None, **kwargs):
     """
     Run an input jupyter notebook file and optionally (python3 only)
     parametrise it.
@@ -85,6 +87,8 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         ExecutePreprocessor.kernel_name
     ep_kwargs : dict, optional
         Other kwargs accepted by nbconvert.preprocessors.ExecutePreprocessor
+    end_cell_index : int, optional
+        End cell index used to slice the notebook in finding the possible parameters.
     arg : str
         Path of a json file (it should end in ".json") or json formatted string used to parametrise the jupyter notebook.
         It should containt json objects. It is decoded into python objects following https://docs.python.org/3.6/library/json.html#json-to-py-table .
@@ -162,7 +166,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
 
     if jupyter_kwargs != {}:
         params_of_interest = {}
-        jnh = _JupyterNotebookHelper(nb)
+        jnh = _JupyterNotebookHelper(nb, end_cell_index)
         for el in jupyter_kwargs.keys():
             if el not in jnh.possible_param.keys():
                 raise ValueError(repr(el)+' is not a possible parameter {}.'.format(list(jnh.possible_param.keys())))

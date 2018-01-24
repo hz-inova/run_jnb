@@ -15,6 +15,8 @@ class _JupyterNotebookHelper:
     ----------
     nb : str, nbformat.notebooknode.NotebookNode
         Jupyter notebook path or its content as a NotebookNode object.
+    end_cell_index : int, optional
+        End cell index used to slice the notebook in finding the possible parameters.
 
     Attributes
     ----------
@@ -32,7 +34,7 @@ class _JupyterNotebookHelper:
         the cell where the variable is defined.
         The dictionary is ordered by the cell index.
     """
-    def __init__(self, nb):
+    def __init__(self, nb, end_cell_index=None):
         if isinstance(nb, nbformat.notebooknode.NotebookNode):
             pass
         elif isinstance(nb, str):
@@ -48,16 +50,16 @@ class _JupyterNotebookHelper:
         self.exporter = PythonExporter()
 
         if self.language == 'python' and self.language_version[0] == '3':
-            self.possible_param = self._cell_index_of_possible_param()
+            self.possible_param = self._cell_index_of_possible_param(end_cell_index)
         else:
             self.possible_param = sort_dict({})
 
-    def _cell_index_of_possible_param(self):
+    def _cell_index_of_possible_param(self,end_cell_index):
         index_of_params = {}
         exclude_variable = set()
         new_nb = copy.deepcopy(self.nb)
 
-        for i, cell in enumerate(self.nb['cells']):
+        for i, cell in enumerate(self.nb['cells'][:end_cell_index]):
             if cell['cell_type'] == 'code':
                 new_nb['cells'] = [cell]
                 source, _ = self.exporter.from_notebook_node(new_nb)

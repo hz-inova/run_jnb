@@ -27,6 +27,7 @@ def main():
                         type=str, default=EP.kernel_name.default_value)
     parser.add_argument('-E', "--ep_kwargs", help="other ExecutePreprocessor parameters as keyword arguments",
                         default=None, type=str)
+    parser.add_argument('-M',"--end_cell_index", help="End cell index used to slice the notebook in finding the possible parameters.", default=None, type=int),
     parser.add_argument('-a', "--arg", help="jupyter notebook argument as json file or as json string (python3 only)",
                         default=None, type=str)
     parser.add_argument("-v", "--verbose", help="verbose mode to write the returned output as csv. -v for the path of the generated notebook and th error prompt number. -vv appends also the error type and value. -vvv or more appends the error traceback.", action='count')
@@ -42,7 +43,8 @@ def main():
                   execution_path=args.execution_path,
                   return_mode=args.return_mode, overwrite=args.overwrite,
                   timeout=args.timeout, kernel_name=args.kernel_name,
-                  ep_kwargs=args.ep_kwargs, arg=args.arg)
+                  ep_kwargs=args.ep_kwargs,end_cell_index=args.end_cell_index,
+                  arg=args.arg)
 
     output = StringIO()
     writer = csv.writer(output)
