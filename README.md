@@ -48,17 +48,16 @@ The notebook contains several possible parameters.
 Next we will parametrise the *exponent* using ***run_jnb***.
 
 ***run_jnb*** returns a tuple (output absolute path, error prompt number, error type, error value, error traceback).
-One can easily parametrise a notebook *without* executing it
+One can easily parametrise and execute a notebook
 ```python
-# Parametrise the noteboook without executing
+# Parametrise the noteboook and not execute the notebook
 >>> run_jnb("./Power_function.ipynb", return_mode='parametrise_only', exponent=1)
-('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
-
 # Parametrise and execute the notebook
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
 
+('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
 ```
-Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) .
+Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) the initial notebook.
 Same output can be obtained by using *arg* parameter:
 ```python
 >>> run_jnb(".../Power_function.ipynb", return_mode=True, arg='{"exponent":1}')
