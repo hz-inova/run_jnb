@@ -8,6 +8,6 @@ install:
   - pip install matplotlib
 # command to run tests
 script:
-  - pytest run_jnb 
+  - pytest --cov=./ run_jnb 
 after_success:
-  - coveralls
+  - codecov
