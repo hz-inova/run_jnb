@@ -13,3 +13,6 @@ script:
   - pytest --cov=./ run_jnb 
 after_success:
   - codecov
+os:
+  - linux
+  - osx
