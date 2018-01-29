@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Aug 30 08:57:14 2017
-
-@author: plan
-"""
-
 
 from ..util import find_duplicates, variable_status
 

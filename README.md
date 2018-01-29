@@ -27,7 +27,7 @@ The package contains two public functions ***possible_parameter*** and ***run_jn
 >>> from run_jnb import possible_parameter, run_jnb
 ```
 
-***run_jnb*** is available also as a command line tool and its documentation is available via 
+***run_jnb*** is available also as a command line tool and its documentation is available via
 
 ```sh
 run_jnb -h
@@ -43,21 +43,27 @@ Consider the [notebook](example/Power_function.ipynb).
 >>> possible_parameter('./Power_function.ipynb')
 OrderedDict([('np_arange_args', 4), ('x', 5), ('exponent', 7), ('y', 9)])
 ```
-The notebook contains several possible parameters. 
+The notebook contains several possible parameters.
 
 Next we will parametrise the *exponent* using ***run_jnb***.
 
 ***run_jnb*** returns a tuple (output absolute path, error prompt number, error type, error value, error traceback).
-
+One can easily parametrise a notebook *without* executing it
 ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
+# Parametrise the noteboook without executing
+>>> run_jnb("./Power_function.ipynb", return_mode='parametrise_only', exponent=1)
 ('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
+
+# Parametrise and execute the notebook
+>>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
+
 ```
-Please see the [generated notebook](example/_run_jnb/Power_function-output.ipynb). Same output can be obtained by using *arg* parameter:
+Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) .
+Same output can be obtained by using *arg* parameter:
 ```python
 >>> run_jnb(".../Power_function.ipynb", return_mode=True, arg='{"exponent":1}')
 ```
-or using the command line tool: 
+or using the command line tool:
 ```sh
 # " can be escaped by \"
 $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -vvv
@@ -85,14 +91,14 @@ where [*power_function_arg.json*](example/power_function_arg.json) contains:
 }
 ```
 
-Please see the [generated notebook](example/_run_jnb/Power_function-output%20(1).ipynb).
+Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb).
 
 If the generated notebook contains an error:
  ```python
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('.../_run_jnb/Power_function-output (2).ipynb', 3, 'TypeError', "Required argument 'start' (pos 1) not found", ...)
 ```
-the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was catched (please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb)).
+the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was catched (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
 
 
 ## Dependencies

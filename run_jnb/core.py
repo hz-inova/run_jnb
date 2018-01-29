@@ -76,8 +76,8 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         The path of the folder where to execute the notebook.
         r'///input' or r'///output' can be used to denote the input / output folder.
 
-    return_mode : ['except',True, False], optional
-        Flag to write the generated notebook to the output_path: "except" writes in case of an exception, True writes always, False writes never.
+    return_mode : ['parametrise_only','except',True, False], optional
+        Flag to write the generated notebook to the output_path: "parametrise_only" writes the generated notebook without executing it, "except" writes in case of an exception, True writes always, False writes never.
     overwrite : bool, optional
         Flag to overwrite or not the output_path. If the parameter is False
         the used output_path will be incremented until a valid one is found.
@@ -151,7 +151,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     if ep_kwargs is None:
         ep_kwargs = {}
 
-    if return_mode not in ['except', True, False]:
+    if return_mode not in ['parametrise_only','except', True, False]:
         raise TypeError("return mode is not valid!")
 
     kwarg_to_json = json.dumps(kwargs)
@@ -163,6 +163,12 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         raise ValueError('Multiple values for keyword argument {}'.format(multiple_kwarg))
     jupyter_kwargs = {**arg_as_kwarg, **kwarg_as_kwarg}
     nb = _read_nb(input_path)
+
+    # clean notebook
+    for i, cell in enumerate(nb['cells']):
+        if cell['cell_type'] == 'code':
+            nb['cells'][i]['outputs'] = []
+            nb['cells'][i]['execution_count'] = None
 
     if jupyter_kwargs != {}:
         params_of_interest = {}
@@ -180,36 +186,39 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             marked_code = _mark_auto_generated_code(cell_code)
             nb['cells'][key]['source'] += marked_code
 
-    ep = ExecutePreprocessor(timeout=timeout, kernel_name=kernel_name,
-                             **ep_kwargs)
+    if return_mode != 'parametrise_only':
+        ep = ExecutePreprocessor(timeout=timeout, kernel_name=kernel_name,
+                                 **ep_kwargs)
+
     catch_except = False
 
     error = (None, None, None, None)
     try:
-        ep.preprocess(nb, {'metadata': {'path': execution_path}})
+        if return_mode != 'parametrise_only':
+            ep.preprocess(nb, {'metadata': {'path': execution_path}})
     except CellExecutionError:
         catch_except = True
 
-        for i, cell in enumerate(nb['cells']):
-            if cell['cell_type'] == 'code':
+        for cell in nb['cells'][::-1]:
+            if cell['cell_type'] == 'code' and cell.get('outputs')!=[]:
+                for output in cell['outputs']:
+                    if output.get('output_type') == 'error':
+                        error = (cell['execution_count'],
+                                 output.get('ename'), output.get('evalue'),
+                                 output.get('traceback'))
+                        break
                 if error[0] is not None:
-                    nb['cells'][i]['outputs'] = []
-                    nb['cells'][i]['execution_count'] = None
+                    break
                 else:
-                    for output in cell['outputs']:
-                        if output.get('output_type') == 'error':
-                            error = (cell['execution_count'],
-                                     output.get('ename'), output.get('evalue'),
-                                     output.get('traceback'))
-                            break
+                    raise ValueError('Cell expected to have an error.')
     finally:
+
         if return_mode == 'except':
             if catch_except is True:
                 nb_return = True
             else:
                 nb_return = None
-
-        elif return_mode is True:
+        elif return_mode is True or return_mode == 'parametrise_only':
             nb_return = True
         elif return_mode is False:
             nb_return = None
