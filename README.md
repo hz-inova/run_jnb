@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/hz-inova/run_jnb.svg?branch=master)](https://travis-ci.org/hz-inova/run_jnb)
-
+[![Build Status](https://travis-ci.org/hz-inova/run_jnb.svg?branch=master)](https://travis-ci.org/hz-inova/run_jnb) 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # run_jnb
