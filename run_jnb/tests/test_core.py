@@ -29,9 +29,8 @@ def test_run_jnb():
     output_path=output_path.replace('(1).ipynb','(2).ipynb')
     assert run_jnb(input_path, return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})==(output_path,None,None,None,None)
 
-# not done properly on travis ci
-#    output_path=output_path.replace('(2).ipynb','(3).ipynb')
-#    res=run_jnb(input_path, return_mode=True, exponent=1, np_arange_args={'step':0.1})
-#    assert res[:-1]==(output_path,3,'TypeError', "Required argument 'start' (pos 1) not found")
+    output_path=output_path.replace('(2).ipynb','(3).ipynb')
+    res=run_jnb(input_path, return_mode=True, exponent=1, np_arange_args={'step':0.1})
+    assert res[:-1]==(output_path,3,'TypeError', "Required argument 'start' (pos 1) not found")
 
 
