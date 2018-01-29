@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hz-inova/run_jnb.svg?branch=master)](https://travis-ci.org/hz-inova/run_jnb)
+
 # run_jnb
 
 **run_jnb** is a python package and command line tool for parametrising (python3 only) and executing Jupyter notebooks.
