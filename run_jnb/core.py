@@ -76,8 +76,8 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         The path of the folder where to execute the notebook.
         r'///input' or r'///output' can be used to denote the input / output folder.
 
-    return_mode : ['parametrise_only','except',True, False], optional
-        Flag to write the generated notebook to the output_path: "parametrise_only" writes the generated notebook without executing it, "except" writes in case of an exception, True writes always, False writes never.
+    return_mode : ['parametrised_only','except',True, False], optional
+        Flag to write the generated notebook to the output_path: "parametrised_only" writes the generated notebook without executing it, "except" writes in case of an exception, True writes always, False writes never.
     overwrite : bool, optional
         Flag to overwrite or not the output_path. If the parameter is False
         the used output_path will be incremented until a valid one is found.
@@ -151,7 +151,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     if ep_kwargs is None:
         ep_kwargs = {}
 
-    if return_mode not in ['parametrise_only','except', True, False]:
+    if return_mode not in ['parametrised_only','except', True, False]:
         raise TypeError("return mode is not valid!")
 
     kwarg_to_json = json.dumps(kwargs)
@@ -186,7 +186,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             marked_code = _mark_auto_generated_code(cell_code)
             nb['cells'][key]['source'] += marked_code
 
-    if return_mode != 'parametrise_only':
+    if return_mode != 'parametrised_only':
         ep = ExecutePreprocessor(timeout=timeout, kernel_name=kernel_name,
                                  **ep_kwargs)
 
@@ -194,7 +194,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
 
     error = (None, None, None, None)
     try:
-        if return_mode != 'parametrise_only':
+        if return_mode != 'parametrised_only':
             ep.preprocess(nb, {'metadata': {'path': execution_path}})
     except CellExecutionError:
         catch_except = True
@@ -211,25 +211,26 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
                     break
                 else:
                     raise ValueError('Cell expected to have an error.')
-    finally:
+    except:
+        raise
 
-        if return_mode == 'except':
-            if catch_except is True:
-                nb_return = True
-            else:
-                nb_return = None
-        elif return_mode is True or return_mode == 'parametrise_only':
+    if return_mode == 'except':
+        if catch_except is True:
             nb_return = True
-        elif return_mode is False:
+        else:
             nb_return = None
+    elif return_mode is True or return_mode == 'parametrised_only':
+        nb_return = True
+    elif return_mode is False:
+        nb_return = None
 
-        if nb_return is not None:
-            if overwrite is False:
-                while os.path.exists(output_path):
-                    dirname, basename = os.path.split(output_path)
-                    root, ext = os.path.splitext(basename)
-                    new_root = increment_name(root)
-                    output_path = os.path.join(dirname, new_root+ext)
-            nb_return = output_path  # update the output_path
-            _write_nb(nb, output_path)
-        return (nb_return, *error)
+    if nb_return is not None:
+        if overwrite is False:
+            while os.path.exists(output_path):
+                dirname, basename = os.path.split(output_path)
+                root, ext = os.path.splitext(basename)
+                new_root = increment_name(root)
+                output_path = os.path.join(dirname, new_root+ext)
+        nb_return = output_path  # update the output_path
+        _write_nb(nb, output_path)
+    return (nb_return, *error)

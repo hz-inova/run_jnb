@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hz-inova/run_jnb.svg?branch=master)](https://travis-ci.org/hz-inova/run_jnb) 
+[![Build Status](https://travis-ci.org/hz-inova/run_jnb.svg?branch=master)](https://travis-ci.org/hz-inova/run_jnb)
 [![Build status](https://ci.appveyor.com/api/projects/status/g15r1prwb2smvx6d/branch/master?svg=true)](https://ci.appveyor.com/project/aplamada/run-jnb/branch/master)
 [![codecov](https://codecov.io/gh/hz-inova/run_jnb/branch/master/graph/badge.svg)](https://codecov.io/gh/hz-inova/run_jnb)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
@@ -56,7 +56,7 @@ Next we will parametrise the *exponent* using ***run_jnb***.
 One can easily parametrise and execute a notebook
 ```python
 # Parametrise the noteboook and not execute the notebook
->>> run_jnb("./Power_function.ipynb", return_mode='parametrise_only', exponent=1)
+>>> run_jnb("./Power_function.ipynb", return_mode="parametrised_only", exponent=1)
 # Parametrise and execute the notebook
 >>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
 

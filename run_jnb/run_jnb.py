@@ -17,8 +17,8 @@ def main():
                         default=r"///_run_jnb/*-output", type=str)
     parser.add_argument("-e", "--execution_path", help="path of the folder where to execute the notebook.  r'///input' or r'///output' can be used to denote the input / output folder.",
                         default=r'///input', type=str)
-    parser.add_argument("-m", "--return_mode", help="flag to write the generated notebook to the output_path. 'parametrise_only' to just parametrise the notebook without executing it, 'except' to write just in case of an error and true /false to write it always /never.",
-                        choices=['parametrise_only','except', 'true', 'false'], default='except')
+    parser.add_argument("-m", "--return_mode", help="flag to write the generated notebook to the output_path. 'parametrised_only' to just parametrise the notebook without executing it, 'except' to write just in case of an error and true /false to write it always /never.",
+                        choices=['parametrised_only','except', 'true', 'false'], default='except')
     parser.add_argument("-O", "--overwrite", help="overwrite output_path if exists. If the parameter is False the used output_path will be incremented until a valid one is found.",
                         action='store_true', default=False)
     parser.add_argument("-t", "--timeout", help="ExecutePreprocessor.timeout",
@@ -34,7 +34,7 @@ def main():
 
     args = parser.parse_args()
 
-    if args.return_mode not in ['except','parametrise_only']:
+    if args.return_mode not in ['except','parametrised_only']:
         args.return_mode = json.loads(args.return_mode)
 
     if args.ep_kwargs is not None:
