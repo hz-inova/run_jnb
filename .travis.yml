@@ -3,7 +3,7 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install ipython jupyter_client
+  - pip install ipython ipykernel jupyter_client
   - pip install nbconvert
   - pip install matplotlib
   - pip install pytest-cov codecov
