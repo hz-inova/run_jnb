@@ -6,7 +6,7 @@ from ..core import possible_parameter, run_jnb
 
 
 def test_possible_parameter():
-    input_path = r"./example/Power_function.ipynb"
+    input_path = r'./example/Power_function.ipynb'
     assert possible_parameter(input_path) == OrderedDict([('np_arange_args', 4), ('x', 5), ('exponent', 7), ('y', 9)])
     assert possible_parameter(input_path,4) == OrderedDict()
     assert possible_parameter(input_path,5) == OrderedDict([('np_arange_args', 4)])
@@ -14,7 +14,7 @@ def test_possible_parameter():
 
 
 def test_run_jnb():
-    input_path = r"./example/Power_function.ipynb"
+    input_path = r'./example/Power_function.ipynb'
     dirname,basename=os.path.split(input_path)
     output_dir = os.path.abspath(os.path.join(dirname,'_run_jnb'))
     if os.path.exists(output_dir):

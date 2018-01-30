@@ -56,16 +56,16 @@ Next we will parametrise the *exponent* using ***run_jnb***.
 One can easily parametrise and execute a notebook
 ```python
 # Parametrise the noteboook and not execute the notebook
->>> run_jnb("./Power_function.ipynb", return_mode="parametrised_only", exponent=1)
+>>> run_jnb('./Power_function.ipynb', return_mode='parametrised_only', exponent=1)
 # Parametrise and execute the notebook
->>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1)
+>>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1)
 
 ('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
 ```
 Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) the initial notebook.
 Same output can be obtained by using *arg* parameter:
 ```python
->>> run_jnb(".../Power_function.ipynb", return_mode=True, arg='{"exponent":1}')
+>>> run_jnb('.../Power_function.ipynb', return_mode=True, arg='{'exponent':1}')
 ```
 or using the command line tool:
 ```sh
@@ -76,11 +76,11 @@ $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -vvv
 At command line the output is returned only in verbose mode (the tuple is serialised as a csv).
 
 *np_arange_args* and *exponent* can be parametrised:
- ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
+```python
+>>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 # or
->>> run_jnb("./Power_function.ipynb", return_mode=True, arg="./power_function_arg.json")
+>>> run_jnb('./Power_function.ipynb', return_mode=True, arg='./power_function_arg.json')
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 ```
 where [*power_function_arg.json*](example/power_function_arg.json) contains:
@@ -99,7 +99,7 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2)
 
 If the generated notebook contains an error:
  ```python
->>> run_jnb("./Power_function.ipynb", return_mode=True, exponent=1, np_arange_args={'step':0.1})
+>>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('.../_run_jnb/Power_function-output (2).ipynb', 3, 'TypeError', "Required argument 'start' (pos 1) not found", ...)
 ```
 the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was catched (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
