@@ -8,6 +8,7 @@
 **run_jnb** is a python package and command line tool for parametrising (python3 only) and executing Jupyter notebooks.
 
 - **Source**: [https://github.com/hz-inova/run_jnb](https://github.com/hz-inova/run_jnb)
+- **Platform**: Independent
 - **Development Status**: Alpha
 
 ## Installion
