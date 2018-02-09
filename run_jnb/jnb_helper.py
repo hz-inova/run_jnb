@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import os
 import copy
 import nbformat
-import os
+
+from nbconvert import PythonExporter
 
 from .util import _read_nb, sort_dict, variable_status
-from nbconvert import PythonExporter
 
 class _JupyterNotebookHelper:
     """
@@ -38,7 +39,7 @@ class _JupyterNotebookHelper:
         if isinstance(nb, nbformat.notebooknode.NotebookNode):
             pass
         elif isinstance(nb, str):
-            if os.path.splitext(nb)[1]!='.ipynb':
+            if os.path.splitext(nb)[1] != '.ipynb':
                 raise ValueError("The extension of the jupyter notebook = '{}' is not '.ipynb'".format(nb))
             nb = _read_nb(nb)
         else:
@@ -54,7 +55,7 @@ class _JupyterNotebookHelper:
         else:
             self.possible_param = sort_dict({})
 
-    def _cell_index_of_possible_param(self,end_cell_index):
+    def _cell_index_of_possible_param(self, end_cell_index):
         index_of_params = {}
         exclude_variable = set()
         new_nb = copy.deepcopy(self.nb)

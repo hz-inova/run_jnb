@@ -151,7 +151,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
     if ep_kwargs is None:
         ep_kwargs = {}
 
-    if return_mode not in ['parametrised_only','except', True, False]:
+    if return_mode not in ['parametrised_only', 'except', True, False]:
         raise TypeError("return mode is not valid!")
 
     kwarg_to_json = json.dumps(kwargs)
@@ -200,7 +200,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         catch_except = True
 
         for cell in nb['cells'][::-1]:
-            if cell['cell_type'] == 'code' and cell.get('outputs')!=[]:
+            if cell['cell_type'] == 'code' and cell.get('outputs') != []:
                 for output in cell['outputs']:
                     if output.get('output_type') == 'error':
                         error = (cell['execution_count'],

@@ -8,7 +8,7 @@ from ..run_jnb import main
 def test_run_jnb_command_line():
     input_path = r'./example/Power_function.ipynb'
     sys.stdout = io.StringIO()
-    sys.argv=['run_jnb',input_path,'-m','false','-vvv']
+    sys.argv = ['run_jnb', input_path, '-m', 'false', '-vvv']
     main()
     output = sys.stdout.getvalue()
-    assert output[:4]==',,,,'
+    assert output[:4] == ',,,,'

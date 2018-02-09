@@ -5,13 +5,13 @@ import ast
 import json
 import copy
 
-import nbformat
 from typing import Union
+import nbformat
 
 
 def kwargs_to_variable_assignment(kwargs: dict, value_representation=repr,
-                                  assignment_operator: str=' = ',
-                                  statement_separator: str ='\n',
+                                  assignment_operator: str = ' = ',
+                                  statement_separator: str = '\n',
                                   statement_per_line: bool = False) -> str:
     """
     Convert a dictionary into a string with assignments
@@ -49,16 +49,16 @@ def kwargs_to_variable_assignment(kwargs: dict, value_representation=repr,
     'a = 2\\n'
     """
     code = []
-    join_str='\n' if statement_per_line else ''
+    join_str = '\n' if statement_per_line else ''
     for key, value in kwargs.items():
         code.append(key + assignment_operator +
                     value_representation(value)+statement_separator)
     return join_str.join(code)
 
 
-def _mark_auto_generated_code(code:str):
+def _mark_auto_generated_code(code: str):
     comment_after = '# '
-    new_code = "\n".join(['','',
+    new_code = "\n".join(['', '',
                           comment_after+'!!! start assign jupyter notebook parameter(s) !!!',
                           '',
                           code,
@@ -66,7 +66,7 @@ def _mark_auto_generated_code(code:str):
     return new_code
 
 
-def decode_json(json_input: Union[str, None]=None):
+def decode_json(json_input: Union[str, None] = None):
     """
     Simple wrapper of json.load and json.loads.
 
@@ -129,8 +129,8 @@ def find_duplicates(l: list) -> set:
     return set([x for x in l if l.count(x) > 1])
 
 
-def sort_dict(d: dict, by: str='key',
-              allow_duplicates: bool=True) -> collections.OrderedDict:
+def sort_dict(d: dict, by: str = 'key',
+              allow_duplicates: bool = True) -> collections.OrderedDict:
     """
     Sort a dictionary by key or value.
 
@@ -221,7 +221,7 @@ def _write_nb(nb: nbformat.notebooknode.NotebookNode, nb_path: str):
 
 
 def variable_status(code: str,
-                    exclude_variable: Union[set, None]=None) -> tuple:
+                    exclude_variable: Union[set, None] = None) -> tuple:
     """
     Find the possible and the used variables from a python code.
 
@@ -310,8 +310,8 @@ def variable_status(code: str,
     return set(), store_variable_name | exclude_variable
 
 
-def increment_name(name: str, start_marker: str =" (",
-                   end_marker: str =")") -> str:
+def increment_name(name: str, start_marker: str = " (",
+                   end_marker: str = ")") -> str:
     """
     Increment the name where the incremental part is given by parameters.
 
