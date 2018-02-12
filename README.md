@@ -21,7 +21,7 @@ pip install run_jnb
 
 For a notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
 - it is defined in a cell that contains only comments or assignments,
-- its name is not used in the current cell beside the assignment nor previously.
+- its name is not used as a global variable in the current cell (beside the assignment) nor previously.
 
 One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a variable assignment by unpacking it. The assignments are appended at the end of the cell where they are initially defined.
 
@@ -66,7 +66,7 @@ One can easily parametrise and execute a notebook
 Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) the initial notebook.
 Same output can be obtained by using *arg* parameter:
 ```python
->>> run_jnb('.../Power_function.ipynb', return_mode=True, arg='{'exponent':1}')
+>>> run_jnb('.../Power_function.ipynb', return_mode=True, arg='{"exponent":1}')
 ```
 or using the command line tool:
 ```sh
@@ -78,14 +78,17 @@ At command line the output is returned only in verbose mode (the tuple is serial
 
 *np_arange_args* and *exponent* can be parametrised:
 ```python
+# parametrise as keyword arguments
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
-('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
-# or
+# parametrise mixing keyword arguments and arg parameter
+>>> run_jnb('./Power_function.ipynb', return_mode=True, arg='{"exponent":1}', np_arange_args={'start':-20,'stop':20,'step':0.1})
+# parametrise using arg parameter with a json file
 >>> run_jnb('./Power_function.ipynb', return_mode=True, arg='./power_function_arg.json')
+
 ('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
 ```
-where [*power_function_arg.json*](example/power_function_arg.json) contains:
- ```javascript
+where in the last example [*power_function_arg.json*](example/power_function_arg.json) contains:
+```javascript
 {
 	"exponent": 3,
 	"np_arange_args": {
@@ -99,7 +102,7 @@ where [*power_function_arg.json*](example/power_function_arg.json) contains:
 Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb).
 
 If the generated notebook contains an error:
- ```python
+```python
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('.../_run_jnb/Power_function-output (2).ipynb', 3, 'TypeError', "Required argument 'start' (pos 1) not found", ...)
 ```

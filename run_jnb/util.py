@@ -223,7 +223,7 @@ def _write_nb(nb: nbformat.notebooknode.NotebookNode, nb_path: str):
 def variable_status(code: str,
                     exclude_variable: Union[set, None] = None) -> tuple:
     """
-    Find the possible and the used variables from a python code.
+    Find the possible parameters and "global" variables from a python code.
 
 
     Parameters
@@ -235,14 +235,15 @@ def variable_status(code: str,
     Returns
     -------
     tuple
-        (a set of possible parameter,a set of parameter to exclude)
+        (a set of possible parameter, a set of parameter to exclude)
 
-        Assuming that the code can be the content of a function, this function
-        tries to identify the variable that can be used as parameter and the one
-        that have be discarded. This is achieved by parsing the abstract syntax trees.
-        If the variable is used for the first time in an assignment it is a
-        candidate for a possible parameter as long it is not present in
-        exclude_variable. The names used in the code are carefully discarded.
+        A variable is a possible parameter if 1) it is not in the input exclude_variable,
+        2) the code contains only assignments, and 3) it is used only to bound objects.
+
+        The set of parameter to exclude is the union of the input exclude_variable and all names that looks like a global variable.
+
+        This is achieved by parsing the abstract syntax tree.
+
 
     >>> variable_status("a=3")
     ({'a'}, {'a'})
@@ -250,6 +251,8 @@ def variable_status(code: str,
     (set(), {'a'})
     >>> variable_status("def f(x,y=3):\\n\\t pass")
     (set(), {'f'})
+    >>> variable_status("class C(A):\\n\\t pass")
+    (set(), {'C'})
     >>> variable_status("import f")
     (set(), {'f'})
     >>> variable_status("import f as g")
@@ -266,6 +269,7 @@ def variable_status(code: str,
     root = ast.parse(code)
     store_variable_name = set()
     assign_only = True
+
     for node in ast.iter_child_nodes(root):
         if isinstance(node, ast.Assign):
             for assign_node in ast.walk(node):
@@ -278,15 +282,11 @@ def variable_status(code: str,
             for assign_node in ast.walk(node):
                 if isinstance(assign_node, ast.Name):
                     exclude_variable |= {assign_node.id}
+        # class and function
         elif isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             assign_only = False
             exclude_variable |= {node.name}
-            if node.decorator_list is not None:
-                for node1 in ast.iter_child_nodes(node):
-                    for assign_node in ast.walk(node):
-                        if isinstance(assign_node, ast.Name):
-                            if isinstance(assign_node.ctx, ast.Load):
-                                exclude_variable |= {assign_node.id}
+        # import
         elif isinstance(node, ast.Import):
             assign_only = False
             for node1 in ast.iter_child_nodes(node):
@@ -294,9 +294,9 @@ def variable_status(code: str,
                     exclude_variable |= {node1.asname}
                 else:
                     exclude_variable |= {node1.name}
+        # import from
         elif isinstance(node, ast.ImportFrom):
             assign_only = False
-            #exclude_variable |= {node.module}
             for node1 in ast.iter_child_nodes(node):
                 if node1.asname is not None:
                     exclude_variable |= {node1.asname}

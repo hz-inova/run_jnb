@@ -32,6 +32,12 @@ def test_run_jnb():
                                    'stop': 20,
                                    'step': 0.1}) == (output_path, None, None, None, None)
 
+    assert run_jnb(input_path, return_mode=False, arg='{"exponent":1}',
+                   np_arange_args={'start': -20,
+                                   'stop': 20,
+                                   'step': 0.1}) == (None, None, None, None, None)
+
+
     output_path = output_path.replace('(2).ipynb', '(3).ipynb')
     res = run_jnb(input_path, return_mode=True, exponent=1, np_arange_args={'step': 0.1})
     assert res[:-1] == (output_path, 3, 'TypeError', "Required argument 'start' (pos 1) not found")
