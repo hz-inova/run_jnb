@@ -58,7 +58,7 @@ def kwargs_to_variable_assignment(kwargs: dict, value_representation=repr,
 
 def _mark_auto_generated_code(code: str):
     comment_after = '# '
-    new_code = "\n".join(['', '',
+    new_code = "\n".join(['', '', '',
                           comment_after+'!!! start assign jupyter notebook parameter(s) !!!',
                           '',
                           code,
