@@ -19,11 +19,11 @@ pip install run_jnb
 
 ## Short Description
 
-For a notebook written in python one can find the possible parameters. This is achived by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
+For a notebook written in python one can find the possible parameters. This is achieved by parsing the abstract syntax tree of the code cells. A variable can be a possible parameter if:
 - it is defined in a cell that contains only comments or assignments,
 - its name is not used as a global variable in the current cell (beside the assignment) nor previously.
 
-One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serialisable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a variable assignment by unpacking it. The assignments are appended at the end of the cell where they are initially defined.
+One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serializable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a variable assignment by unpacking it. The assignments are appended at the end of the cell where they are initially defined.
 
 The generated notebook (parametrised or not) can be easily executed (the implementation relies on [nbconvert Executing notebooks](http://nbconvert.readthedocs.io/en/latest/execute_api.html)).
 
@@ -43,7 +43,7 @@ run_jnb -h
 
 Consider the [notebook](example/Power_function.ipynb).
 
-***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the cell index where the parameter is assigned.
+***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the corresponding cell index.
 
 ```python
 >>> possible_parameter('./Power_function.ipynb')
@@ -106,7 +106,7 @@ If the generated notebook contains an error:
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
 ('.../_run_jnb/Power_function-output (2).ipynb', 3, 'TypeError', "Required argument 'start' (pos 1) not found", ...)
 ```
-the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was catched (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
+the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was caught (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
 
 
 ## Dependencies
