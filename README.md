@@ -33,7 +33,7 @@ The package contains two public functions ***possible_parameter*** and ***run_jn
 >>> from run_jnb import possible_parameter, run_jnb
 ```
 
-***run_jnb*** is available also as a command line tool and its documentation is available via
+***run_jnb*** can be used also as a command line tool and its documentation is available via
 
 ```sh
 run_jnb -h
