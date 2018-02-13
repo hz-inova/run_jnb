@@ -72,7 +72,7 @@ or using the command line tool:
 ```sh
 # " can be escaped by \"
 $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -vvv
-[".../_run_jnb/Power_function-output.ipynb",,,,
+".../_run_jnb/Power_function-output.ipynb",,,,
 ```
 At command line the output is returned only in verbose mode (the tuple is serialised as a csv).
 
