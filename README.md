@@ -78,7 +78,7 @@ At command line the output is returned only in verbose mode (the tuple is serial
 
 *np_arange_args* and *exponent* can be parametrised:
 ```python
-# parametrise as keyword arguments
+# parametrise using keyword arguments
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
 # parametrise mixing keyword arguments and arg parameter
 >>> run_jnb('./Power_function.ipynb', return_mode=True, arg='{"exponent":3}', np_arange_args={'start':-20,'stop':20,'step':0.1})
