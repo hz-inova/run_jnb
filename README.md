@@ -90,12 +90,12 @@ At command line the output is returned only in verbose mode (the tuple is serial
 where in the last example [*power_function_arg.json*](example/power_function_arg.json) contains:
 ```javascript
 {
-	"exponent": 3,
-	"np_arange_args": {
-		"start": -20,
-		"stop": 20,
-		"step": 0.1
-	}
+    "exponent": 3,
+    "np_arange_args": {
+        "start": -20,
+	"stop": 20,
+	"step": 0.1
+    }
 }
 ```
 
