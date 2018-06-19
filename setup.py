@@ -7,6 +7,8 @@ setup(
     packages = ['run_jnb'],
     entry_points = { "console_scripts": ['run_jnb = run_jnb.run_jnb:main']},
     description = 'Parametrise (python3 only) and execute Jupyter notebooks',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     version = run_jnb.__version__,
     author = 'Andrei V. Plamada',
     author_email = 'andreiplamada@gmail.com',
