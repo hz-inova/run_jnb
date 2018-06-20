@@ -27,6 +27,7 @@ def main():
                         type=str, default=EP.kernel_name.default_value)
     parser.add_argument('-E', "--ep_kwargs", help="other ExecutePreprocessor parameters as keyword arguments",
                         default=None, type=str)
+    parser.add_argument('-j', "--jsonable_parameter", help="Parametrise only jsonable parameters.", choices=['true', 'false'], default='true')                        
     parser.add_argument('-M', "--end_cell_index", help="End cell index used to slice the notebook in finding the possible parameters.", default=None, type=int),
     parser.add_argument('-a', "--arg", help="jupyter notebook argument as json file or as json string (python3 only)",
                         default=None, type=str)
@@ -37,6 +38,8 @@ def main():
     if args.return_mode not in ['except', 'parametrised_only']:
         args.return_mode = json.loads(args.return_mode)
 
+    args.jsonable_parameter = json.loads(args.jsonable_parameter)
+    
     if args.ep_kwargs is not None:
         args.ep_kwargs = json.loads(args.ep_kwargs)
     res = run_jnb(input_path=args.input_path, output_path=args.output_path,
@@ -44,6 +47,7 @@ def main():
                   return_mode=args.return_mode, overwrite=args.overwrite,
                   timeout=args.timeout, kernel_name=args.kernel_name,
                   ep_kwargs=args.ep_kwargs, end_cell_index=args.end_cell_index,
+                  jsonable_parameter=args.jsonable_parameter,
                   arg=args.arg)
 
     output = StringIO()

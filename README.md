@@ -43,11 +43,13 @@ run_jnb -h
 
 Consider the [notebook](example/Power_function.ipynb).
 
-***possible_parameter*** returns an *OrderedDict* where the key is the parameter name and the value is the corresponding cell index.
+***possible_parameter*** returns a *list* of possible parameters with their name, value and cell index.
+The list is sorted alphabetically by the name of the possible parameters.
 
 ```python
 >>> possible_parameter('./Power_function.ipynb')
-OrderedDict([('np_arange_args', 4), ('x', 5), ('exponent', 7), ('y', 9)])
+[PossibleParameter(name='exponent', value=2, cell_index=7),
+ PossibleParameter(name='np_arange_args', value={'start': -10, 'stop': 10, 'step': 0.01}, cell_index=4)]
 ```
 The notebook contains several possible parameters.
 

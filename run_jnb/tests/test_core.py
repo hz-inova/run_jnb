@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 import shutil
 import os
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from ..core import possible_parameter, run_jnb
 
+PP=namedtuple('PossibleParameter',['name','value','cell_index'])
+PP_1=namedtuple('PossibleParameter',['name', 'cell_index'])
 
 def test_possible_parameter():
     input_path = r'./example/Power_function.ipynb'
-    assert possible_parameter(input_path) == OrderedDict([('np_arange_args', 4), ('x', 5), ('exponent', 7), ('y', 9)])
-    assert possible_parameter(input_path, 4) == OrderedDict()
-    assert possible_parameter(input_path, 5) == OrderedDict([('np_arange_args', 4)])
-    assert possible_parameter(input_path, 6) == OrderedDict([('np_arange_args', 4), ('x', 5)])
+    res_1 = [PP_1(name='exponent', cell_index=7), PP_1(name='np_arange_args', cell_index=4),
+           PP_1(name='x', cell_index=5), PP_1(name='y', cell_index=9)]
+    assert possible_parameter(input_path, jsonable_parameter=False) == res_1
 
+    res_2 = [PP(name='exponent', value=2, cell_index=7), PP(name='np_arange_args', value={'start': -10, 'stop': 10, 'step': 0.01}, cell_index=4)]
+    assert possible_parameter(input_path) == res_2
+    assert possible_parameter(input_path, end_cell_index=4) == []
+    assert possible_parameter(input_path, end_cell_index=5) == [res_2[1]]
+    assert possible_parameter(input_path, end_cell_index=6, jsonable_parameter=False) == [res_1[1],res_1[2]]
+    assert possible_parameter(input_path, end_cell_index=6 ) == [res_2[1]]
 
 def test_run_jnb():
     input_path = r'./example/Power_function.ipynb'

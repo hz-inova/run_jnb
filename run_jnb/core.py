@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import collections
 import json
 import os
 
@@ -12,7 +13,7 @@ from .util import _read_nb, _write_nb, sort_dict, group_dict_by_value, \
 from .jnb_helper import _JupyterNotebookHelper
 
 
-def possible_parameter(nb, end_cell_index=None):
+def possible_parameter(nb, jsonable_parameter=True, end_cell_index=None):
     """
     Find the possible parameters from a jupyter notebook (python3 only).
 
@@ -28,18 +29,31 @@ def possible_parameter(nb, end_cell_index=None):
     ----------
     nb : str, nbformat.notebooknode.NotebookNode
         Jupyter notebook path or its content as a NotebookNode object.
+    jsonable_parameter: bool, optional
+        Consider only jsonable parameters.
     end_cell_index : int, optional
         End cell index used to slice the notebook in finding the possible parameters.
 
     Returns
     -------
-    collections.OrderedDict
-        Ordered dictionary with the possible parameters for the jupyter notebook.
-        The key is the name of the variable and the value is the index of the cell where the variable is defined using a zero-based numbering.
-        The dictionary is ordered by the cell index.
+    list[collections.namedtuple]
+        The list is ordered by the name of the parameters.
     """
-    jh = _JupyterNotebookHelper(nb, end_cell_index)
-    return jh.possible_param
+    jh = _JupyterNotebookHelper(nb, jsonable_parameter, end_cell_index)
+
+    if jsonable_parameter is True:
+        PossibleParameter=collections.namedtuple('PossibleParameter',['name','value','cell_index'])
+    else:
+        PossibleParameter=collections.namedtuple('PossibleParameter',['name', 'cell_index'])
+
+    res=[]
+    for name, cell_index in jh.param_cell_index.items():
+        if jsonable_parameter is True:
+            res.append(PossibleParameter(name=name,value=jh.param_value[name],cell_index=cell_index))
+        else:
+            res.append(PossibleParameter(name=name,cell_index=cell_index))
+
+    return sorted(res, key = lambda x: (x.name))
 
 
 def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
@@ -48,7 +62,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
             overwrite=False,
             timeout=ExecutePreprocessor.timeout.default_value,
             kernel_name=ExecutePreprocessor.kernel_name.default_value,
-            ep_kwargs=None, end_cell_index=None, arg=None, **kwargs):
+            ep_kwargs=None, jsonable_parameter=True, end_cell_index=None, arg=None, **kwargs):
     """
     Run an input jupyter notebook file and optionally (python3 only)
     parametrise it.
@@ -87,6 +101,8 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
         ExecutePreprocessor.kernel_name
     ep_kwargs : dict, optional
         Other kwargs accepted by nbconvert.preprocessors.ExecutePreprocessor
+    jsonable_parameter: bool, optional
+        Parametrise only jsonable parameters
     end_cell_index : int, optional
         End cell index used to slice the notebook in finding the possible parameters.
     arg : str
@@ -172,12 +188,12 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
 
     if jupyter_kwargs != {}:
         params_of_interest = {}
-        jnh = _JupyterNotebookHelper(nb, end_cell_index)
+        jnh = _JupyterNotebookHelper(nb, jsonable_parameter ,end_cell_index)
         for el in jupyter_kwargs.keys():
-            if el not in jnh.possible_param.keys():
-                raise ValueError(repr(el)+' is not a possible parameter {}.'.format(list(jnh.possible_param.keys())))
+            if el not in jnh.param_cell_index.keys():
+                raise ValueError(repr(el)+' is not a possible parameter {}.'.format(list(jnh.param_cell_index.keys())))
             else:
-                params_of_interest[el] = jnh.possible_param[el]
+                params_of_interest[el] = jnh.param_cell_index[el]
         params_of_interest = sort_dict(params_of_interest, by='value')
         cell_index_param = group_dict_by_value(params_of_interest)
         for key, value in cell_index_param.items():

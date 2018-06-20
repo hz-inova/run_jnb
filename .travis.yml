@@ -4,7 +4,6 @@ python:
 # command to install dependencies
 install:
   - pip install ipython ipykernel jupyter_client
-  - pip install nbconvert
   - pip install matplotlib
   - pip install pytest-cov codecov
 # command to run tests

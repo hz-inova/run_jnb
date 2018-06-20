@@ -12,7 +12,7 @@ environment:
 
 install:
   # We need wheel installed to build wheels
-  - "%PYTHON%\\python.exe -m pip install ipython ipykernel jupyter_client nbconvert matplotlib pytest"
+  - "%PYTHON%\\python.exe -m pip install ipython ipykernel jupyter_client matplotlib pytest"
 
 build: off
 
