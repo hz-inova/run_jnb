@@ -8,7 +8,7 @@ install:
   - pip install pytest-cov codecov
 # command to run tests
 script:
-  - pip install -e . --no-deps
+  - pip install -e .
   - pytest --cov=./ run_jnb 
 after_success:
   - codecov
