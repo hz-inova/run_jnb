@@ -51,9 +51,6 @@ The list is alphabetically sorted by the name of the possible parameters.
 [PossibleParameter(name='exponent', value=2, cell_index=7),
  PossibleParameter(name='np_arange_args', value={'start': -10, 'stop': 10, 'step': 0.01}, cell_index=4)]
 ```
-The notebook contains several possible parameters.
-
-Next we will parametrise the *exponent* using ***run_jnb***.
 
 ***run_jnb*** allows one to easily parametrise and execute a notebook.
 ```python
@@ -66,19 +63,18 @@ Output(output_nb_path='.../_run_jnb/Power_function-output.ipynb',  error_prompt_
 error_type=None, error_value=None, error_traceback=None)
 ```
 Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) the initial notebook.
-Same output can be obtained by using *arg* parameter:
+Same output can be obtained by using *arg* parameter
 ```python
 >>> run_jnb('.../Power_function.ipynb', return_mode=True, arg='{"exponent":1}')
 ```
-or using the command line tool:
+or using the command line tool (the output is returned only in verbose mode and the tuple is serialised as a csv)
 ```sh
 # " can be escaped by \"
 $ run_jnb ./Power_function.ipynb -m true -a "{\"exponent\":1}" -vvv
 ".../_run_jnb/Power_function-output.ipynb",,,,
 ```
-At command line the output is returned only in verbose mode (the tuple is serialised as a csv).
 
-*np_arange_args* and *exponent* can be parametrised:
+*np_arange_args* and *exponent* can be parametrised
 ```python
 # parametrise using keyword arguments
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=3, np_arange_args={'start':-20,'stop':20,'step':0.1})
@@ -90,7 +86,7 @@ At command line the output is returned only in verbose mode (the tuple is serial
 Output(output_nb_path='.../_run_jnb/Power_function-output (1).ipynb',  error_prompt_number=None, 
 error_type=None, error_value=None, error_traceback=None)
 ```
-where in the last example [*power_function_arg.json*](example/power_function_arg.json) contains:
+where in the last example [*power_function_arg.json*](example/power_function_arg.json) contains
 ```javascript
 {
     "exponent": 3,
@@ -104,13 +100,13 @@ where in the last example [*power_function_arg.json*](example/power_function_arg
 
 Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb).
 
-If the generated notebook contains an error:
+If an error is catched during the execution of the generated notebook
 ```python
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
 Output(output_nb_path='.../_run_jnb/Power_function-output (2).ipynb',  error_prompt_number=3, 
 error_type='TypeError', error_value="Required argument 'start' (pos 1) not found", error_traceback=...)
 ```
-the output provides the prompt number of the cell where the error was caught and details about the error (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
+the output provides also the prompt number of the cell where the error was caught and details about the error (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
 
 
 ## Dependencies
