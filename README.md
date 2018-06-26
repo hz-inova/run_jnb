@@ -11,7 +11,7 @@
 - **Platform**: Independent
 - **Development Status**: Alpha
 
-## Installion
+## Installation
 
 ```sh
 pip install run_jnb
@@ -109,7 +109,7 @@ For a notebook written in python one can find the possible parameters. This is a
 
 One can pass arguments as keyword arguments or in a json format (file or string). For safety reasons, in order to avoid any code injection, only json serializable keywords arguments are available. The keyword arguments are firstly encoded in json format using the standard [json encoder](https://docs.python.org/3.6/library/json.html#json.JSONEncoder). The json content is decoded into python objects using the standard [json decoder](https://docs.python.org/3.6/library/json.html#json.JSONDecoder) and it is mapped to a variable assignment by unpacking it. The assignments are appended at the end of the cell where they are initially defined.
 
-For a *jsonable parameter*, i.e. a parameter for which its value can be recovered from its json representation using the standard decoder, the value of the parameter is returned as well. The value is determined in two steps: firstly the assginemnt is safely evaluated using [ast.literal_eval](https://docs.python.org/3/library/ast.html) and next it is checked if it is a jsonable parameter.
+For a *jsonable parameter*, i.e. a parameter for which its value can be recovered from its json representation using the standard decoder, the value of the parameter is returned as well. The value is determined in two steps: firstly the assignment is safely evaluated using [ast.literal_eval](https://docs.python.org/3/library/ast.html) and next it is checked if it is a jsonable parameter.
 
 The generated notebook (parametrised or not) can be easily executed. The implementation relies on [nbconvert Executing notebooks](http://nbconvert.readthedocs.io/en/latest/execute_api.html).
 
