@@ -31,7 +31,7 @@ def main():
     parser.add_argument('-M', "--end_cell_index", help="End cell index used to slice the notebook in finding the possible parameters.", default=None, type=int),
     parser.add_argument('-a', "--arg", help="jupyter notebook argument as json file or as json string (python3 only)",
                         default=None, type=str)
-    parser.add_argument("-v", "--verbose", help="verbose mode to write the returned output as csv. -v for the path of the generated notebook and th error prompt number. -vv appends also the error type and value. -vvv or more appends the error traceback.", action='count')
+    parser.add_argument("-v", "--verbose", help="verbose mode to write the returned output as csv. -v for the path of the generated notebook and the error prompt number. -vv appends also the error type and value. -vvv or more appends the error traceback.", action='count')
 
     args = parser.parse_args()
 
@@ -60,7 +60,7 @@ def main():
     elif args.verbose == 2:
         writer.writerow(res[:-1])
     elif args.verbose > 2:
-        writer.writerow(res)
+        writer.writerow(res[:])
 
     if args.verbose is not None:
         print(output.getvalue())

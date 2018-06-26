@@ -37,6 +37,7 @@ def possible_parameter(nb, jsonable_parameter=True, end_cell_index=None):
     Returns
     -------
     list[collections.namedtuple]
+        If jsonable_parameter is true the fields are ('name','value','cell_index'), otherwise ('name', 'cell_index').
         The list is ordered by the name of the parameters.
     """
     jh = _JupyterNotebookHelper(nb, jsonable_parameter, end_cell_index)
@@ -113,8 +114,8 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
 
     Returns
     -------
-    tuple
-        (output absolute path or None, error prompt number, error type, error value, error traceback)
+    collections.namedtuple
+        The fields are ('output_nb_path', 'error_prompt_number','error_type','error_value','error_traceback').
         If the generated file is written the output path is returned otherwise None.
         If an error is catched the details are return otherwise None.
         """
@@ -249,4 +250,7 @@ def run_jnb(input_path, output_path=r"///_run_jnb/*-output",
                 output_path = os.path.join(dirname, new_root+ext)
         nb_return = output_path  # update the output_path
         _write_nb(nb, output_path)
-    return (nb_return, *error)
+    Output=collections.namedtuple('Output',['output_nb_path', 'error_prompt_number','error_type','error_value','error_traceback'])
+    res = Output(output_nb_path=nb_return,error_prompt_number=error[0],
+                error_type=error[1],error_value=error[2],error_traceback=error[3])
+    return res

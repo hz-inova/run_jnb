@@ -6,6 +6,7 @@ from ..core import possible_parameter, run_jnb
 
 PP=namedtuple('PossibleParameter',['name','value','cell_index'])
 PP_1=namedtuple('PossibleParameter',['name', 'cell_index'])
+Output=namedtuple('Output',['output_nb_path', 'error_prompt_number','error_type','error_value','error_traceback'])
 
 def test_possible_parameter():
     input_path = r'./example/Power_function.ipynb'
@@ -28,25 +29,25 @@ def test_run_jnb():
         shutil.rmtree(output_dir)
 
     output_path = os.path.join(output_dir, basename[:-6]+'-output'+basename[-6:])
-    assert run_jnb(input_path, return_mode='parametrised_only', exponent=1) == (output_path, None, None, None, None)
+    assert run_jnb(input_path, return_mode='parametrised_only', exponent=1) == Output(output_path, None, None, None, None)
 
     output_path = output_path[:-6]+' (1)'+output_path[-6:]
-    assert run_jnb(input_path, return_mode=True, exponent=1) == (output_path, None, None, None, None)
+    assert run_jnb(input_path, return_mode=True, exponent=1) == Output(output_path, None, None, None, None)
 
     output_path = output_path.replace('(1).ipynb', '(2).ipynb')
     assert run_jnb(input_path, return_mode=True, exponent=3,
                    np_arange_args={'start': -20,
                                    'stop': 20,
-                                   'step': 0.1}) == (output_path, None, None, None, None)
+                                   'step': 0.1}) == Output(output_path, None, None, None, None)
 
     assert run_jnb(input_path, return_mode=False, arg='{"exponent":1}',
                    np_arange_args={'start': -20,
                                    'stop': 20,
-                                   'step': 0.1}) == (None, None, None, None, None)
+                                   'step': 0.1}) == Output(None, None, None, None, None)
 
 
     output_path = output_path.replace('(2).ipynb', '(3).ipynb')
     res = run_jnb(input_path, return_mode=True, exponent=1, np_arange_args={'step': 0.1})
-    assert res[:-1] == (output_path, 3, 'TypeError', "Required argument 'start' (pos 1) not found")
-
-    assert run_jnb(input_path, return_mode=False, arg='./example/power_function_arg.json') == (None, None, None, None, None)
+    expected_res = (output_path, 3, 'TypeError', "Required argument 'start' (pos 1) not found",'')
+    assert res[:-1] == expected_res[:-1]
+    assert run_jnb(input_path, return_mode=False, arg='./example/power_function_arg.json') == Output(None, None, None, None, None)

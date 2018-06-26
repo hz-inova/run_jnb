@@ -44,7 +44,7 @@ run_jnb -h
 Consider the [notebook](example/Power_function.ipynb).
 
 ***possible_parameter*** returns a *list* of possible parameters with their name, value and cell index.
-The list is sorted alphabetically by the name of the possible parameters.
+The list is alphabetically sorted by the name of the possible parameters.
 
 ```python
 >>> possible_parameter('./Power_function.ipynb')
@@ -55,15 +55,15 @@ The notebook contains several possible parameters.
 
 Next we will parametrise the *exponent* using ***run_jnb***.
 
-***run_jnb*** returns a tuple (output absolute path, error prompt number, error type, error value, error traceback).
-One can easily parametrise and execute a notebook
+***run_jnb*** allows one to easily parametrise and execute a notebook.
 ```python
 # Parametrise the noteboook and not execute the notebook
 >>> run_jnb('./Power_function.ipynb', return_mode='parametrised_only', exponent=1)
 # Parametrise and execute the notebook
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1)
 
-('.../_run_jnb/Power_function-output.ipynb', None, None, None, None)
+Output(output_nb_path='.../_run_jnb/Power_function-output.ipynb',  error_prompt_number=None, 
+error_type=None, error_value=None, error_traceback=None)
 ```
 Please see the exported notebook by [only parametrising](example/_run_jnb/Power_function-output.ipynb) and by [parametrising and executing ](example/_run_jnb/Power_function-output%20(1).ipynb) the initial notebook.
 Same output can be obtained by using *arg* parameter:
@@ -87,7 +87,8 @@ At command line the output is returned only in verbose mode (the tuple is serial
 # parametrise using arg parameter with a json file
 >>> run_jnb('./Power_function.ipynb', return_mode=True, arg='./power_function_arg.json')
 
-('.../_run_jnb/Power_function-output (1).ipynb', None, None, None, None)
+Output(output_nb_path='.../_run_jnb/Power_function-output (1).ipynb',  error_prompt_number=None, 
+error_type=None, error_value=None, error_traceback=None)
 ```
 where in the last example [*power_function_arg.json*](example/power_function_arg.json) contains:
 ```javascript
@@ -106,9 +107,10 @@ Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2)
 If the generated notebook contains an error:
 ```python
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
-('.../_run_jnb/Power_function-output (2).ipynb', 3, 'TypeError', "Required argument 'start' (pos 1) not found", ...)
+Output(output_nb_path='.../_run_jnb/Power_function-output (2).ipynb',  error_prompt_number=3, 
+error_type='TypeError', error_value="Required argument 'start' (pos 1) not found", error_traceback=...)
 ```
-the second element in the returned tuple (3 in thise case) is the prompt number of the cell where the error was caught (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
+the output provides the prompt number of the cell where the error was caught and details about the error (please see the [generated notebook](example/_run_jnb/Power_function-output%20(3).ipynb)).
 
 
 ## Dependencies
