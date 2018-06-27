@@ -92,7 +92,7 @@ where in the last example [*power_function_arg.json*](example/power_function_arg
 
 Please see the [generated notebook](example/_run_jnb/Power_function-output%20(2).ipynb).
 
-If an error is catched during the execution of the generated notebook
+If an error is detected during the execution of the generated notebook
 ```python
 >>> run_jnb('./Power_function.ipynb', return_mode=True, exponent=1, np_arange_args={'step':0.1})
 Output(output_nb_path='.../_run_jnb/Power_function-output (2).ipynb',  error_prompt_number=3, 
