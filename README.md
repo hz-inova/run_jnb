@@ -10,7 +10,7 @@
 - **Source**: [https://github.com/hz-inova/run_jnb](https://github.com/hz-inova/run_jnb)
 - **Platform**: Independent
 - **Development Status**: Alpha
-- **Getting Started**: [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/hz-inova/run_jnb/master?filepath=example%2FGetting%20Started.ipynb)
+- **Getting Started**: [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/hz-inova/run_jnb/master?filepath=https%3A%2F%2Fgithub.com%2Fhz-inova%2Frun_jnb%2Fblob%2Fmaster%2Fexample%2FGetting%2520Started.ipynb)
 
 ## Installation
 
