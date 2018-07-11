@@ -354,7 +354,8 @@ def variable_status(code: str,
                         i=0
                         for assign_tuple_node in ast.iter_child_nodes(assign_node):
                             if isinstance(assign_tuple_node, ast.Name):
-                                if is_jsonable(_value[i]) and _is_literal_eval:
+
+                                if isinstance(_value,(collections.Iterable)) and is_jsonable(_value[i]) and _is_literal_eval:
                                     dict_parameter[assign_tuple_node.id]=_value[i]                                
                                     store_variable_name |= {assign_tuple_node.id} 
                                 else:

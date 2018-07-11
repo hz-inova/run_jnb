@@ -55,4 +55,7 @@ a = 2
                                                       {'a', 'b', 'c', 'e'}, {})
     assert variable_status("a = f(b)", jsonable_parameter=False) == ({'a'}, {'a', 'b', 'f'}, {})
     assert variable_status("a,b = 1,2") == ({'a', 'b'}, {'a', 'b'}, {'a':1, 'b':2})
+    assert variable_status("a,b = (1,2)") == ({'a', 'b'}, {'a', 'b'}, {'a':1, 'b':2})
+    assert variable_status("a,b = [1,2,3]") == ({'a', 'b'}, {'a', 'b'}, {'a':1, 'b':2})
+    assert variable_status("a,b = map(lambda x: x**2, [1,2])") == (set(), {'a', 'b', 'map', 'x'}, {})
     assert variable_status("a  = f(a)", jsonable_parameter=False) == (set(), {'a', 'f'}, {})
