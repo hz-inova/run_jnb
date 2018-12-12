@@ -33,7 +33,7 @@ setup(
     license = 'BSD 3-clause "New" or "Revised" License',
     keywords = ['jupyter-notebook', 'execute', 'parametrise'],
     python_requires = '>=3.5',
-    install_requires = ['nbconvert>=4.2'],
+    install_requires = ['nbconvert>=4.2,<5.4'],
     classifiers = ['Development Status :: 3 - Alpha',
                    'License :: OSI Approved :: BSD License',
                    ],
